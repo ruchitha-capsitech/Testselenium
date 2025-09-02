@@ -28,6 +28,7 @@ public class Test1 {
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(40));
         driver.manage().window().maximize();
+        driver.manage().window().maximize();
     }
 
     @Test(description = "Sales Invoice Creation Test")
@@ -42,11 +43,12 @@ public class Test1 {
         commonmethods.entertextmethods(driver, By.id("Input_Password"), "Welcome@1");
 
         wait.until(ExpectedConditions.elementToBeClickable(By.id("login-submit"))).click();
-
+         Allure.step("successfully loginned");
         driver.navigate().to("https://appdev.actingoffice.com/admin");
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div[1]/div[2]/div[1]/div[4]/div/div/button[1]"))).click();
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[2]/div/div/div/div/div/div/div/a[1]"))).click();
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div/div[2]/div[2]/div/div[2]/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[3]/div/div/div[3]/div/a"))).click();
+        Allure.step("navigated to company dashboard");
             wait.until(ExpectedConditions.elementToBeClickable(By.id("inputs"))).click();
             wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Sales"))).click();
             wait.until(ExpectedConditions.elementToBeClickable(By.name("Invoice"))).click();
@@ -56,6 +58,7 @@ public class Test1 {
 
 
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[.//span[text()='Save']]"))).click();
+        Allure.step("invoice created successfully");
     }
 
     private byte[] takeScreenshot() {
