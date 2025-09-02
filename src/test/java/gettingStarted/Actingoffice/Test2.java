@@ -1,5 +1,4 @@
 package gettingStarted.Actingoffice;
-
 import io.qameta.allure.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -7,19 +6,19 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.*;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
-
+import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileInputStream;
+import java.lang.reflect.Method;
 import java.time.Duration;
-
 public class Test2 {
 
     WebDriver driver;
     WebDriverWait wait;
 
     @BeforeMethod
-    public void setup() {
+    public void setup(Method method) throws Exception {
+        VideoRecorder.startRecording(method.getName());
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--user-data-dir=/tmp/profile-" + System.currentTimeMillis());
 
@@ -35,7 +34,7 @@ public class Test2 {
     @Story("User attempts to create a duplicate invoice")
     @Severity(SeverityLevel.CRITICAL)
     public void detectDuplicateInvoiceTest() {
-        try {
+
             driver.navigate().to("https://accountsdev.actingoffice.com/login?..."); // shortened for clarity
             Allure.step("Navigated to login page");
 
@@ -87,24 +86,33 @@ public class Test2 {
 
             Allure.step("Test completed successfully");
 
-        } catch (Exception e) {
-            Allure.step("Test failed: " + e.getMessage());
-            attachScreenshot("Failure Screenshot");
-            throw e;
-        }
-    }
 
-    @Attachment(value = "{screenshotName}", type = "image/png")
-    public byte[] attachScreenshot(String screenshotName) {
+    }
+    private byte[] takeScreenshot() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
     @AfterMethod
-    public void tearDown() {
-        attachScreenshot("Final Screenshot");
-        if (driver != null) {
-            driver.quit();
-            Allure.step("Browser closed");
+    public void tearDown(ITestResult result) {
+        try {
+
+            if (result.getStatus() == ITestResult.FAILURE) {
+                Allure.addAttachment("Failure Screenshot",
+                        new ByteArrayInputStream(takeScreenshot()));
+            } else if (result.getStatus() == ITestResult.SUCCESS) {
+                Allure.addAttachment("Success Screenshot",
+                        new ByteArrayInputStream(takeScreenshot()));
+            }
+            String videoPath = VideoRecorder.stopRecording();
+            if (videoPath != null) {
+                File videoFile = new File(videoPath);
+                if (videoFile.exists() && videoFile.length() > 0) {
+                    Allure.addAttachment("Test Video (AVI)", "video/x-msvideo",
+                            new FileInputStream(videoFile), "avi");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Could not capture artifacts: " + e.getMessage());
         }
     }
 }

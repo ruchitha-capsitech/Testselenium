@@ -35,7 +35,7 @@ public class Test1 {
     @Epic("Sales Module")
     @Feature("Invoice Creation")
     @Story("User creates a sales invoice")
-    @Severity(SeverityLevel.CRITICAL)
+
     public void testSalesInvoiceCreation() {
         driver.navigate().to("https://accountsdev.actingoffice.com/login?...");
 
