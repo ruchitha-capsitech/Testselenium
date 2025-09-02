@@ -4,6 +4,7 @@ import extensions.commonmethods;
 import io.qameta.allure.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.*;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -17,6 +18,9 @@ public class Test212 {
 
     @BeforeMethod
     public void setup() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-data-dir=/tmp/profile-" + System.currentTimeMillis());
+
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(40));
         driver.manage().window().maximize();
