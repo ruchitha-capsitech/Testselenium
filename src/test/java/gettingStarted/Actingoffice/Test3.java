@@ -39,7 +39,7 @@ public class Test3 {
     @Epic("Purchases Module")
     @Feature("Payment Creation")
     @Severity(SeverityLevel.CRITICAL)
-    public void detectDuplicateInvoiceTest() {
+    public void Overpaymenthandlingwheninvoiceisunpaid() {
         driver.navigate().to("https://accountsdev.actingoffice.com/login?returnUrl=%2Foauth%2Fauthorize%2Fcallback%3Fclient_id%3Dweb%26redirect_uri%3Dhttps%253A%252F%252Fappdev.actingoffice.com%252Foidc-callback%26scope%3Dopenid%2520profile%2520offline_access%2520api%26response_type%3Dcode%26tenant%3Dappdev.actingoffice.com%26acr_values%3Dtenant%253Aappdev.actingoffice.com%26state%3DVFtee6Ln1BghAWA7%26nonce%3DBxbxpUwmWRNI%26code_challenge%3D14dXypLaO1DS6oEkdmu0MfgAuUeFfDTOdgk6zE5mS-Q%26code_challenge_method%3DS256");
            Allure.step("Navigated to login page");
         driver.manage().window().maximize();
