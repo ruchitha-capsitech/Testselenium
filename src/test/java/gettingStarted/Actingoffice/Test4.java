@@ -28,13 +28,8 @@ public class Test4 {
     public void setup(Method method) throws Exception {
         VideoRecorder.startRecording(method.getName());
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // Run without GUI
-        options.addArguments("--no-sandbox"); // Prevent sandbox issues
-        options.addArguments("--disable-dev-shm-usage"); // Avoid shared memory problems
-        options.addArguments("--user-data-dir=/tmp/profile-" + System.currentTimeMillis()); // Unique profile
 
-        driver = new ChromeDriver(options);
+
         wait = new WebDriverWait(driver, Duration.ofSeconds(40));
         driver.manage().window().setSize(new Dimension(1920, 1080)); // Set size manually in headless mode
 

@@ -19,9 +19,6 @@ public class Test2 {
     @BeforeMethod
     public void setup(Method method) throws Exception {
         VideoRecorder.startRecording(method.getName());
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--user-data-dir=/tmp/profile-" + System.currentTimeMillis());
-
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(40));
         driver.manage().window().maximize();
